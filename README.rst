@@ -13,7 +13,9 @@ more details.
 Installation
 ============
 
-SmartSVM is available on PyPI and can be installed easily with::
+SmartSVM is available on PyPI and can be installed easily with:
+
+.. code:: bash
 
     pip install smartsvm
 
@@ -40,7 +42,9 @@ Bayes error estimates
 Error estimation is implemented three functions:
 
 * ``hp_estimate`` for the Henze-Penrose estimator of the Bayes error rate.  
-  This can be used as::
+  This can be used as:
+
+  .. code:: python
 
     >>> import numpy as np
     >>> from smartsvm import hp_estimate
@@ -51,7 +55,9 @@ Error estimation is implemented three functions:
 
 * ``compute_error_graph`` and ``compute_ovr_error`` respectively compute the 
   complete weighted graph of pairwise BER estimates or the One-vs-Rest BER for 
-  each class. They have a similar interface::
+  each class. They have a similar interface:
+
+  .. code:: python
 
     >>> import numpy as np
     >>> from smartsvm import compute_error_graph, compute_ovr_error
@@ -71,7 +77,9 @@ SmartSVM is an adaptive hierarchical classifier which constructs a
 classification hierarchy based on the Henze-Penrose estimates of the Bayes 
 error between each pair of classes. The classifier is build on top of 
 Scikit-Learn and can be used in the exact same way as other sklearn 
-classifiers::
+classifiers:
+
+.. code:: python
 
     >>> import numpy as np
     >>> from smartsvm import SmartSVM
@@ -87,7 +95,9 @@ classifiers::
 By default, the SmartSVM classifier uses the Linear Support Vector Machine 
 (``LinearSVC``) as the underlying binary classifier for each binary subproblem 
 in the hierarchy.  This can easily be changed with the ``binary_clf`` 
-parameter to the class constructor, for instance::
+parameter to the class constructor, for instance:
+
+.. code:: python
 
     >>> from sklearn.tree import DecisionTreeClassifier
     >>> clf = SmartSVM(binary_clf=DecisionTreeClassifier)
@@ -102,7 +112,9 @@ parameter to the class constructor, for instance::
 
 You may optionally add parameters for the classifier through the 
 ``clf_params`` parameter. This should be a dict with the parameters to the 
-binary classifier, as follows::
+binary classifier, as follows:
+
+.. code:: python
 
     >>> clf = SmartSVM(binary_clf=DecisionTreeClassifier, clf_params={'criterion': 'entropy'})
     >>> clf.fit(X, y)
