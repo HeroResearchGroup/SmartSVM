@@ -1,28 +1,29 @@
-/** 
+/**
  * @file c_multiclass_mst_count.c
  * @author G.J.J. van den Burg
  * @date 2017-02-28
  * @brief Code for constructing the MST once and counting the connections 
  * efficiently.
+ *
+ * @copyright
+ * Copyright (C) G.J.J. van den Burg
 
- * Copyright (C) 
+ This file is part of SmartSVM.
 
- This program is free software; you can redistribute it and/or
+ SmartSVM is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
  as published by the Free Software Foundation; either version 2
  of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
+ SmartSVM is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ along with SmartSVM; if not, see <http://www.gnu.org/licenses/>.
 
  */
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,9 +44,9 @@
  * @details
  * This is a wrapper function around malloc from <stdlib.h>. It tries to
  * allocate the requested memory and checks if the memory was correctly
- * allocated. If not, an error is printed using err(), which describes the
+ * allocated. If not, an error is printed to stderr, which describes the
  * file and linenumber and size failed to allocate. After this, the program
- * exits. See also the defines in loki_memory.h.
+ * exits.
  *
  * @note
  * This function should not be used directly. Malloc() should be used.
@@ -66,6 +67,27 @@ void *mymalloc(const char *file, int line, unsigned long size)
 	return ptr;
 }
 
+/**
+ * @brief Calculates a matrix of cross-connection counts in orthogonal MSTs
+ *
+ * @details
+ * This function computes `nTrees` orthogonal MSTs on the given dataset and 
+ * returns a vector of length nClass where each ith entry denotes the number 
+ * of times a vertex of class i is connected to a vertex of a different class.
+ *
+ * This function is adapted from an implementation of Whitney's algorithm 
+ * (Communications of the ACM (15) 273, April 1972) by Visar Berisha 
+ * (http://www.public.asu.edu/~visar/).
+ *
+ * @param[in] 	weights 	pointer to weight matrix
+ * @param[in] 	labels 		labels of the nodes
+ * @param[in] 	nTrees 		number of orthogonal MSTs to construct
+ * @param[in] 	N 		size of the weight matrix and label array
+ * @param[in] 	K 		number of classes
+ * @param[out] 	result_counts 	vector of cross connection counts
+ * @param[out] 	n_tree_ret 	number of orthogonal MSTs constructed
+ *
+ */
 void c_multiclass_mst_count(double *weights, long *labels, long nTrees, long N,
 		long K, long *result_counts, long *n_tree_ret)
 {
