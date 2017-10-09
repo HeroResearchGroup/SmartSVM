@@ -72,7 +72,7 @@ class SmartSVM(HierarchicalClassifier):
         """ The labels of this node in the hierarchy """
         if not isinstance(self.graph, nx.Graph):
             raise ValueError("graph should be a networkx Graph object.")
-        return self.graph.nodes()
+        return list(self.graph.nodes())
 
     def fit(self, X, y):
         """Fit the SmartSVM classifier
