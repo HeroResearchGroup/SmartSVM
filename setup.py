@@ -75,4 +75,8 @@ setup(
         packages=find_packages(),
         cmdclass=cmdclass,
         ext_modules=ext_modules,
+        classifiers=[
+            'Programming Language :: Python :: 2.7',
+            'Programming Language :: Python :: 3',
+            ]
 )

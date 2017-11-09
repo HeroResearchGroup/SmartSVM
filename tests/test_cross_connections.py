@@ -74,6 +74,7 @@ class CrossConnectionsTestCase(unittest.TestCase):
         self.assertTrue(np.array_equal([2, 5/3, 2/3], C))
 
     def test_ovr_cross_connections_error(self):
+        """ CROSS-CONNNECTIONS: Test OvR cross connections error """
         X = np.array([
             [-1, -1],
             [-2, 4],
