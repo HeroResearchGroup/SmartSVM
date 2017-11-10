@@ -11,7 +11,7 @@ from distutils.extension import Extension
 # to build extensions from the C file (that was previously generated using 
 # Cython). Set it to 'auto' to build with Cython if available, otherwise from 
 # the C file.
-USE_CYTHON = True
+USE_CYTHON = 'auto'
 
 if USE_CYTHON:
     try:
