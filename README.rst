@@ -3,7 +3,7 @@ SmartSVM
 
 SmartSVM is a Python package which implements the methods from `Fast 
 Meta-Learning for Adaptive Hierarchical Classifier Design 
-<https://link/to/arxiv>`_ by `Gerrit J.J. van den Burg 
+<https://arxiv.org/abs/1711.03512>`_ by `Gerrit J.J. van den Burg 
 <https://gertjanvandenburg.com/research>`_ and `Alfred O. Hero 
 <https://web.eecs.umich.edu/~hero/>`_. The package contains functions for 
 estimating the Bayes error rate (BER) using the Henze-Penrose divergence and a 
@@ -34,7 +34,16 @@ Citing
 If you use this package in your research, please cite the paper using the 
 following BibTex entry::
 
-    bibtex here
+    @article{van2017fast,
+      title={Fast Meta-Learning for Adaptive Hierarchical Classifier Design},
+      author={Gerrit J.J. van den Burg and Alfred O. Hero},
+      journal={arXiv preprint arXiv:1711.03512},
+      archiveprefix={arXiv},
+      year={2017},
+      eprint={1711.03512},
+      url={https://arxiv.org/abs/1711.03512},
+      primaryclass={cs.LG}
+    }
 
 Bayes error estimates
 ---------------------
@@ -127,7 +136,7 @@ binary classifier, as follows:
             splitter='best')
 
 For more information about parameters to SmartSVM, see the API documentation 
-`here <https://link/to/api_docs>`_.
+`here <http://smartsvm.readthedocs.io/>`_.
 
 Known Limitations
 =================
@@ -148,7 +157,7 @@ References
 The main reference for this package is:
 
 * `G.J.J. van den Burg and A.O. Hero - Fast Meta-Learning for Adaptive 
-  Hierarchical Classifier Design (2017) <https://link/to/arxiv>`_.
+  Hierarchical Classifier Design (2017) <https://arxiv.org/abs/1711.03512>`_.
 
 The theory of the Henze-Penrose estimator is developed in:
 
