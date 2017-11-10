@@ -17,11 +17,25 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+
 import os
 import sys
+import sphinx_rtd_theme
+
+from unittest.mock import MagicMock
+
 sys.path.insert(0, os.path.abspath('..'))
 
-import sphinx_rtd_theme
+# mock out C extensions for ReadTheDocs 
+# (http://docs.readthedocs.io/en/latest/faq.html)
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+        return MagicMock()
+
+MOCK_MODULES = ['smartsvm.ortho_mst', 'smartsvm.multiclass_mst_count']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+
 
 # -- General configuration ------------------------------------------------
 
