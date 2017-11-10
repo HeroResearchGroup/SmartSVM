@@ -23,9 +23,6 @@ sys.path.insert(0, os.path.abspath('..'))
 
 import sphinx_rtd_theme
 
-from smartsvm import __version__
-
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -69,6 +66,17 @@ author = 'Gertjan van den Burg'
 #version = '0.1.0'
 # The full version, including alpha/beta/rc tags.
 #release = '0.1.0'
+__version__ = "1.0.0"
+try:
+    pth = os.path.realpath(__file__)
+    dr = os.path.dirname(pth)
+    init_pth = os.path.realpath(os.path.join(dr, '..', 'smartsvm', 
+        '__init__.py'))
+    line = open(init_pth).readlines()[0]
+    __version__ = line.split('=')[-1].strip("\n '")
+except:
+    pass
+
 version = __version__
 release = version
 
