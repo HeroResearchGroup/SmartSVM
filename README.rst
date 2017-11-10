@@ -1,7 +1,7 @@
 SmartSVM
 ========
 
-SmartSVM is a Python package which implements the methods from `Fast 
+SmartSVM is a Python package that implements the methods from `Fast 
 Meta-Learning for Adaptive Hierarchical Classifier Design 
 <https://arxiv.org/abs/1711.03512>`_ by `Gerrit J.J. van den Burg 
 <https://gertjanvandenburg.com/research>`_ and `Alfred O. Hero 
