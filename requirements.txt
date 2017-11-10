@@ -1,3 +1,4 @@
+cython
 networkx>=1.9
 scipy
 scikit-learn
