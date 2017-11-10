@@ -136,7 +136,7 @@ binary classifier, as follows:
             splitter='best')
 
 For more information about parameters to SmartSVM, see the API documentation 
-`here <http://smartsvm.readthedocs.io/>`_.
+`here <https://smartsvm.readthedocs.io/en/latest/#api-documentation>`_.
 
 Known Limitations
 =================
