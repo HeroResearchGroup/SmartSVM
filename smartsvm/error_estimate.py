@@ -136,6 +136,38 @@ def compute_ovr_error(X, y, normalize=True):
     return estimates
 
 
+def hp_binary(X, y, normalize=True):
+    """Henze-Penrose estimation of the BER for a binary dataset
+
+    This is a wrapper around the :func:`.hp_estimate` function for binary 
+    datasets.
+
+    Parameters
+    ----------
+    X : numpy.ndarray
+        Data matrix
+
+    y : numpy.ndarray
+        Label array consisting of two distinct labels
+
+    normalize : bool
+        Whether or not to normalize the error using empirical estimates of 
+        prior probabilities
+
+    Returns
+    -------
+    estimate : float
+        The Henze-Penrose estimate of the Bayes error rate
+
+    """
+    classes = np.unique(y)
+    if not len(classes) == 2:
+        raise ValueError("Only two distinct labels are expected in y")
+    X1 = X[y == classes[0], :]
+    X2 = X[y == classes[1], :]
+    return hp_estimate(X1, X2, normalize=normalize)
+
+
 def hp_estimate(X1, X2, normalize=True):
     """Henze-Penrose estimation of the Bayes Error Rate
 
