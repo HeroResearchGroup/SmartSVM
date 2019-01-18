@@ -77,8 +77,8 @@ def compute_error_graph(X, y, n_jobs=1, normalize=True):
     """
     classes = np.unique(y)
 
-    # When n_jobs = 1 we don't want to use a pool of workers. This is useful 
-    # when training using GridSearchCV from sklearn, since there it is not 
+    # When n_jobs = 1 we don't want to use a pool of workers. This is useful
+    # when training using GridSearchCV from sklearn, since there it is not
     # allowed for a child of GridSearchCV to have children of its own.
     args = [(X, y, i, j, normalize) for i, j in combinations(classes, 2)]
     if n_jobs == 1:
@@ -123,8 +123,10 @@ def compute_ovr_error(X, y, normalize=True):
 
     """
     divergences = ovr_divergence(X, y)
-    estimates = {k : 1.0/2.0 - 1.0/4.0*sqrt(dp) - 1.0/4.0*dp for k, dp in 
-            divergences.items()}
+    estimates = {
+        k: 1.0 / 2.0 - 1.0 / 4.0 * sqrt(dp) - 1.0 / 4.0 * dp
+        for k, dp in divergences.items()
+    }
     if normalize:
         for k in estimates:
             phat = X[y == k, :].shape[0] / (X.shape[0])
@@ -162,7 +164,7 @@ def hp_estimate(X1, X2, normalize=True):
     """
 
     Dptilde = divergence(X1, X2)
-    estimate = 1.0/2.0 - 1.0/4.0*sqrt(Dptilde) - 1.0/4.0*Dptilde
+    estimate = 1.0 / 2.0 - 1.0 / 4.0 * sqrt(Dptilde) - 1.0 / 4.0 * Dptilde
     if normalize:
         phat = X1.shape[0] / (X1.shape[0] + X2.shape[0])
         qhat = X2.shape[0] / (X1.shape[0] + X2.shape[0])

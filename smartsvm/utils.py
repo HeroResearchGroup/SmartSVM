@@ -7,6 +7,7 @@ from __future__ import division
 
 import numpy as np
 
+
 def indices_from_classes(classes, y):
     """Create index vector for all labels in classes
 

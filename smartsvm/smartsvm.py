@@ -59,10 +59,18 @@ class SmartSVM(HierarchicalClassifier):
 
     """
 
-    def __init__(self, binary_clf=LinearSVC, clf_params=None, n_jobs=1, 
-            graph=None, cut_algorithm='stoer_wagner', normalize_error=True):
-        super(SmartSVM, self).__init__(binary_clf=binary_clf, 
-                clf_params=clf_params, n_jobs=n_jobs)
+    def __init__(
+        self,
+        binary_clf=LinearSVC,
+        clf_params=None,
+        n_jobs=1,
+        graph=None,
+        cut_algorithm="stoer_wagner",
+        normalize_error=True,
+    ):
+        super(SmartSVM, self).__init__(
+            binary_clf=binary_clf, clf_params=clf_params, n_jobs=n_jobs
+        )
         self.graph = graph
         self.cut_algorithm = cut_algorithm
         self.normalize_error = normalize_error
@@ -113,10 +121,12 @@ class SmartSVM(HierarchicalClassifier):
         self.classes_ = np.unique(y)
 
         if not self.graph:
-            X, y = check_X_y(X, y, accept_sparse='csr', dtype=np.float64,
-                             order="C")
-            self.graph = compute_error_graph(X, y, n_jobs=self.n_jobs, 
-                    normalize=self.normalize_error)
+            X, y = check_X_y(
+                X, y, accept_sparse="csr", dtype=np.float64, order="C"
+            )
+            self.graph = compute_error_graph(
+                X, y, n_jobs=self.n_jobs, normalize=self.normalize_error
+            )
 
         if not self.is_splitable:
             return
@@ -144,21 +154,32 @@ class SmartSVM(HierarchicalClassifier):
         self.negative_ = set(G_neg.nodes())
         self.positive_ = set(G_pos.nodes())
 
-        self.negative_child_ = SmartSVM(cut_algorithm=self.cut_algorithm, 
-                binary_clf=self.binary_clf, clf_params=self.clf_params, 
-                n_jobs=self.n_jobs, graph=G_neg, 
-                normalize_error=self.normalize_error)
+        self.negative_child_ = SmartSVM(
+            cut_algorithm=self.cut_algorithm,
+            binary_clf=self.binary_clf,
+            clf_params=self.clf_params,
+            n_jobs=self.n_jobs,
+            graph=G_neg,
+            normalize_error=self.normalize_error,
+        )
 
-        self.positive_child_ = SmartSVM(cut_algorithm=self.cut_algorithm, 
-                binary_clf=self.binary_clf, clf_params=self.clf_params, 
-                n_jobs=self.n_jobs, graph=G_pos, 
-                normalize_error=self.normalize_error)
+        self.positive_child_ = SmartSVM(
+            cut_algorithm=self.cut_algorithm,
+            binary_clf=self.binary_clf,
+            clf_params=self.clf_params,
+            n_jobs=self.n_jobs,
+            graph=G_pos,
+            normalize_error=self.normalize_error,
+        )
 
     def __repr__(self):
         name = self.__class__.__name__
         if self.is_splitted:
-            return ("%s(negative=%r, positive=%r)" % (name, self.negative_, 
-                self.positive_))
+            return "%s(negative=%r, positive=%r)" % (
+                name,
+                self.negative_,
+                self.positive_,
+            )
         elif self.graph is None:
             return "%s()" % (name)
         return "%s(%r)" % (name, set(self.elements))

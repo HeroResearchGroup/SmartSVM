@@ -53,18 +53,20 @@ def binary_cross_connections(X, y, nTrees=3):
     """
 
     # Calculate the Euclidean distance matrix
-    weights = squareform(pdist(X, 'euclidean'))
+    weights = squareform(pdist(X, "euclidean"))
 
     # Number of edges connecting nodes from different classes
     S, actual_trees = ortho_mst_count(weights, y, nTrees)
     if actual_trees < nTrees:
-        print("Warning: instead of the requested %i orthogonal MSTs, %i "
+        print(
+            "Warning: instead of the requested %i orthogonal MSTs, %i "
             "orthogonal MSTs were used. Usually this is nothing to worry "
-            "about." % (nTrees, actual_trees))
+            "about." % (nTrees, actual_trees)
+        )
     nTrees = actual_trees
 
     # Average this number and correct it slightly
-    C = (S - nTrees)/nTrees
+    C = (S - nTrees) / nTrees
 
     return C
 
@@ -106,7 +108,7 @@ def ovr_cross_connections(X, y, nClass, nTrees=3):
         raise ValueError("Class labels should be in {0, ..., nClass-1}")
 
     # Calculate the Euclidean distance matrix
-    weights = squareform(pdist(X, 'euclidean'))
+    weights = squareform(pdist(X, "euclidean"))
 
     # Compute the cross-connection counts for each class
     # (matrix of nClass x nClass)
@@ -114,16 +116,18 @@ def ovr_cross_connections(X, y, nClass, nTrees=3):
 
     # Throw a warning when not enough MSTs could be computed
     if actual_trees < nTrees:
-        print("Warning: instead of the requested %i orthogonal MSTs, %i "
+        print(
+            "Warning: instead of the requested %i orthogonal MSTs, %i "
             "orthogonal MSTs were used. Usually this is nothing to worry "
-            "about." % (nTrees, actual_trees))
+            "about." % (nTrees, actual_trees)
+        )
     nTrees = actual_trees
 
-    # Sum the matrix to obtain the class cross-connection counts and correct 
+    # Sum the matrix to obtain the class cross-connection counts and correct
     # for trivial connection
     sums = C.sum(0)
     sums[sums > 0] -= nTrees
 
     # Average over the number of MSTs computed
-    Cs = sums/nTrees
+    Cs = sums / nTrees
     return Cs

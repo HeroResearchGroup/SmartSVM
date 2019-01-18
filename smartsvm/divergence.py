@@ -15,8 +15,7 @@ import numpy as np
 from math import sqrt
 from sklearn.preprocessing import LabelEncoder
 
-from .cross_connections import (binary_cross_connections, 
-        ovr_cross_connections)
+from .cross_connections import binary_cross_connections, ovr_cross_connections
 
 
 def merge_and_label(X1, X2):
@@ -103,13 +102,16 @@ def divergence(X1, X2, nTrees=3, bias_correction=True):
     # Calculate the divergence measure
     if bias_correction:
         # Calculate the bias-correction factor
-        phat = n1/N
-        qhat = n2/N
-        gamma = (2.0*N*min(phat, qhat) - 3.0/4.0 * N + 1.0/4.0*N*sqrt(9.0 - 
-            16.0*min(phat, qhat)))
-        Dptilde = 1.0 - 2.0*min(gamma, C)/N
+        phat = n1 / N
+        qhat = n2 / N
+        gamma = (
+            2.0 * N * min(phat, qhat)
+            - 3.0 / 4.0 * N
+            + 1.0 / 4.0 * N * sqrt(9.0 - 16.0 * min(phat, qhat))
+        )
+        Dptilde = 1.0 - 2.0 * min(gamma, C) / N
     else:
-        Dptilde = 1.0 - 2.0*min(N/2, C)/N
+        Dptilde = 1.0 - 2.0 * min(N / 2, C) / N
 
     return Dptilde
 
@@ -138,8 +140,8 @@ def ovr_divergence(X, labels, nTrees=3, bias_correction=True):
 
     Returns
     -------
-    ovr_bers : dict
-        Dictionary with a mapping from the class label to the OvR-BER estimate
+    ovr_divergence : dict
+        Dictionary with a mapping from the class label to the OvR divergence estimate
 
     """
 
@@ -151,18 +153,21 @@ def ovr_divergence(X, labels, nTrees=3, bias_correction=True):
 
     Cs = ovr_cross_connections(X, y, nClass, nTrees=nTrees)
 
-    Dptildes = np.zeros((nClass, ))
+    Dptildes = np.zeros((nClass,))
     for i in range(nClass):
         if bias_correction:
             phat = X[y == i, :].shape[0] / N
             qhat = X[y != i, :].shape[0] / N
-            gamma = (2.0*N*min(phat, qhat) - 3.0/4.0 * N + 1.0/4.0*N*sqrt(9.0 - 
-                16.0*min(phat, qhat)))
-            Dptildes[i] = 1.0 - 2.0*min(gamma, Cs[i])/N
+            gamma = (
+                2.0 * N * min(phat, qhat)
+                - 3.0 / 4.0 * N
+                + 1.0 / 4.0 * N * sqrt(9.0 - 16.0 * min(phat, qhat))
+            )
+            Dptildes[i] = 1.0 - 2.0 * min(gamma, Cs[i]) / N
         else:
-            Dptildes[i] = 1.0 - 2.0*min(N/2, Cs[i])/N
+            Dptildes[i] = 1.0 - 2.0 * min(N / 2, Cs[i]) / N
 
-    ovr_bers = {}
+    ovr_divs = {}
     for i, dp in zip(encoder.classes_, Dptildes):
-        ovr_bers[i] = dp
-    return ovr_bers
+        ovr_divs[i] = dp
+    return ovr_divs

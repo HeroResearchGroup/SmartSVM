@@ -84,24 +84,24 @@ class HierarchicalClassifier(BaseEstimator, ClassifierMixin):
         self.clf_params = {} if clf_params is None else clf_params
         self.n_jobs = n_jobs
 
-    @abstractmethod # pragma: no cover
+    @abstractmethod  # pragma: no cover
     def fit(self, X, y):
         """ Fit model. """
 
-    @abstractproperty # pragma: no cover
+    @abstractproperty  # pragma: no cover
     def elements(self):
         """ Elements in the graph or list of nodes """
 
-    @abstractmethod # pragma: no cover
+    @abstractmethod  # pragma: no cover
     def _split(self):
         """ Method for splitting up the classes. """
 
     def predict(self, X):
         """ Predict the class labels using the hierarchical classifier """
         if X.shape[0] == 0:
-            return np.tile(float("nan"), (X.shape[0], ))
+            return np.tile(float("nan"), (X.shape[0],))
         if not self.is_splitable:
-            return np.tile(self.elements[0], (X.shape[0], ))
+            return np.tile(self.elements[0], (X.shape[0],))
         check_is_fitted(self, "classifier_")
         check_is_fitted(self, "negative_child_")
         check_is_fitted(self, "positive_child_")
@@ -109,9 +109,9 @@ class HierarchicalClassifier(BaseEstimator, ClassifierMixin):
         idx_neg = pred == -1
         idx_pos = pred == 1
         dtype = np.array(self.elements).dtype
-        predictions = np.zeros((X.shape[0], ), dtype=dtype)
-        predictions[idx_neg, ] = self.negative_child_.predict(X[idx_neg, :])
-        predictions[idx_pos, ] = self.positive_child_.predict(X[idx_pos, :])
+        predictions = np.zeros((X.shape[0],), dtype=dtype)
+        predictions[idx_neg,] = self.negative_child_.predict(X[idx_neg, :])
+        predictions[idx_pos,] = self.positive_child_.predict(X[idx_pos, :])
         return predictions
 
     @property
@@ -161,12 +161,12 @@ class HierarchicalClassifier(BaseEstimator, ClassifierMixin):
         idx_positive = indices_from_classes(self.positive_, y)
         idx_all = np.logical_or(idx_negative, idx_positive)
 
-        y_np = np.zeros((y.shape[0], ))
-        y_np[idx_negative, ] = -1
-        y_np[idx_positive, ] = 1
+        y_np = np.zeros((y.shape[0],))
+        y_np[idx_negative,] = -1
+        y_np[idx_positive,] = 1
 
-        X_needed = X[idx_all, ]
-        y_needed = y_np[idx_all, ]
+        X_needed = X[idx_all,]
+        y_needed = y_np[idx_all,]
 
         return X_needed, y_needed
 
@@ -176,13 +176,13 @@ class HierarchicalClassifier(BaseEstimator, ClassifierMixin):
         self._set_binary()
         self.classifier_.fit(X_needed, y_needed)
 
-    def __str__(self): # pragma: no cover
+    def __str__(self):  # pragma: no cover
         s = repr(self) + "\n"
         s += "Tree:" + "\n"
         s += self.print_tree()
         return s
 
-    def print_tree(self, prefix="", is_tail=None): # pragma: no cover
+    def print_tree(self, prefix="", is_tail=None):  # pragma: no cover
         """ Print the tree """
         s = prefix
         if is_tail is None:

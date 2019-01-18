@@ -20,7 +20,7 @@ from sklearn.cluster import spectral_clustering
 from scipy.sparse.csgraph import connected_components
 
 
-def graph_cut(G, algorithm='stoer_wagner'):
+def graph_cut(G, algorithm="stoer_wagner"):
     """Cut a connected graph into two disjoint graphs
 
     This is a wrapper function to make it easy to use different graph cut 
@@ -50,15 +50,16 @@ def graph_cut(G, algorithm='stoer_wagner'):
         When an unknown graph cut algorithm is supplied.
 
     """
-    if algorithm == 'stoer_wagner':
+    if algorithm == "stoer_wagner":
         return graph_cut_sw(G)
-    elif algorithm == 'spectral_clustering':
-        return graph_cut_sc(G, assign_labels='kmeans')
-    elif algorithm == 'normalized_cut':
-        return graph_cut_sc(G, assign_labels='discretize')
+    elif algorithm == "spectral_clustering":
+        return graph_cut_sc(G, assign_labels="kmeans")
+    elif algorithm == "normalized_cut":
+        return graph_cut_sc(G, assign_labels="discretize")
     else:
-        raise ValueError("Unknown graph cut algorithm supplied: %s" %
-                         algorithm)
+        raise ValueError(
+            "Unknown graph cut algorithm supplied: %s" % algorithm
+        )
 
 
 def graph_cut_sw(G):
@@ -126,14 +127,15 @@ def graph_cut_sc(G, assign_labels=None):
     if weights.std() == 0.:
         data = weights.copy()
     else:
-        data = np.exp(-weights/weights.std())
+        data = np.exp(-weights / weights.std())
         data[weights == 0] = 0
 
     n_components, component_idx = connected_components(data)
     if n_components == 1:
         if len(nodes) > 2:
-            labels = spectral_clustering(data, n_clusters=2, 
-                    assign_labels=assign_labels)
+            labels = spectral_clustering(
+                data, n_clusters=2, assign_labels=assign_labels
+            )
         else:
             labels = np.array([0, 1])
 
