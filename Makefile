@@ -20,6 +20,9 @@ in: inplace
 inplace:
 	python setup.py build_ext -i
 
+inplace2:
+	python2 setup.py build_ext -i
+
 install: ## Install for the current user using the default python command
 	python setup.py build_ext --inplace
 	python setup.py install --user
@@ -42,6 +45,8 @@ cover: test ## Test unit test coverage using default nosetests
 clean: ## Clean build dist and egg directories left after install
 	rm -rf ./dist ./build ./$(PACKAGE).egg-info
 	rm -f MANIFEST
+	rm -f ./$(PACKAGE)/*.so
+	rm -f ./src/ortho_mst.c ./src/multiclass_mst_count.c
 
 develop: ## Install a development version of the package needed for testing
 	python setup.py develop --user

@@ -72,7 +72,7 @@ def read(fname):
 
 
 version = re.search(
-    "__version__ = '([^']+)'", open("smartsvm/__init__.py").read()
+    "__version__ = \"([^']+)\"", open("smartsvm/__init__.py").read()
 ).group(1)
 
 setup(
