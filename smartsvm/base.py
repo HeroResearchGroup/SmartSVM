@@ -114,6 +114,40 @@ class HierarchicalClassifier(BaseEstimator, ClassifierMixin):
         predictions[idx_pos,] = self.positive_child_.predict(X[idx_pos, :])
         return predictions
 
+    def predict_proba(self, X):
+        """ Predict the class probabilities using the hierarchical classifier.
+
+        This is only available if the underlying binary classifier has the 
+        "predict_proba" method. Note that if the probability model is created 
+        using cross validation, the results can be slightly different than 
+        those obtained with the predict method.
+        """
+        if not self.is_splitable:
+            return {c: np.ones((X.shape[0],)) for c in self.elements}
+
+        check_is_fitted(self, "classifier_")
+        check_is_fitted(self, "negative_child_")
+        check_is_fitted(self, "positive_child_")
+
+        if not hasattr(self.classifier_, "predict_proba"):
+            raise NotImplementedError(
+                "The binary classifier doesn't support the 'predict_proba' method, please use one that does."
+            )
+
+        binary_prob = self.classifier_.predict_proba(X)
+
+        local_classes = self.negative_.union(self.positive_)
+        probabilities = {c: np.ones((X.shape[0],)) for c in local_classes}
+        neg_probs = self.negative_child_.predict_proba(X)
+        pos_probs = self.positive_child_.predict_proba(X)
+
+        for c in self.negative_:
+            probabilities[c] *= binary_prob[:, 0] * neg_probs[c]
+        for c in self.positive_:
+            probabilities[c] *= binary_prob[:, 1] * pos_probs[c]
+
+        return probabilities
+
     @property
     def is_splitable(self):
         """ Check if the elements of this node can be split further """

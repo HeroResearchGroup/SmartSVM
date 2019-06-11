@@ -135,6 +135,23 @@ binary classifier, as follows:
             min_weight_fraction_leaf=0.0, presort=False, random_state=None,
             splitter='best')
 
+Finally, it's possible to retrieve probability estimates for the classes if 
+the underlying classifier supports the ``predict_proba`` method:
+
+.. code:: python
+
+    >>> from sklearn.svm import SVC
+    >>> clf = SmartSVM(binary_clf=SVC, clf_params={"probabilities": True})
+    >>> clf.fit(X, y)
+    >>> prob = clf.predict_proba(X)
+    >>> import pandas as pd
+    >>> df = pd.DataFrame(prob)
+    >>> df
+                     0             1             2      ...
+    0     9.999997e-01  1.716831e-18  2.677824e-13      ...
+    1     1.000000e-07  9.956408e-01  1.035589e-09      ...
+    2     2.595652e-05  1.452011e-02  9.722321e-01      ...
+
 For more information about parameters to SmartSVM, see the API documentation 
 `here <https://smartsvm.readthedocs.io/en/latest/#api-documentation>`_.
 

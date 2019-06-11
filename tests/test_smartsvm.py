@@ -12,7 +12,7 @@ import numpy as np
 import six
 import unittest
 
-from sklearn.svm import LinearSVC
+from sklearn.svm import LinearSVC, SVC
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_digits
 from smartsvm import SmartSVM
@@ -38,7 +38,6 @@ class MockClassifier(object):
 
 
 class SmartSVMTestCase(unittest.TestCase):
-
     def test_init_1(self):
         """ SMARTSVM: Test init defaults """
         inst = SmartSVM()
@@ -183,6 +182,35 @@ class SmartSVMTestCase(unittest.TestCase):
                     inst.positive_child_.classifier_._y, -1 * ninst_y
                 )
             )
+
+    def test_fit_predict_proba(self):
+        """ SMARTSVM: Test fit and predict_proba """
+        X = np.array(
+            [
+                [-0.05, 3],
+                [0.05, 3],
+                [0, 3.00],
+                [3, 0.05],
+                [3, -0.05],
+                [3.00, 0],
+                [-0.05, -3],
+                [0.05, -3],
+                [0, -3.00],
+                [-3, 0.05],
+                [-3, -0.05],
+                [-3.00, 0],
+            ]
+        )
+        y = np.array([1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4])
+        clf = SmartSVM(binary_clf=SVC, clf_params={"probability": True})
+        clf.fit(X, y)
+        probs = clf.predict_proba(X)
+        # it's easier to cast it as a pandas DataFrame and do idxmax(1).
+        preds = [
+            max([(v[i], c) for c, v in probs.items()], key=lambda x: x[0])[1]
+            for i in range(X.shape[0])
+        ]
+        self.assertTrue(np.array_equal(preds, y))
 
     def test_fit_predict_strings(self):
         """ SMARTSVM: Test fit and predict with string targets """
