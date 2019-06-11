@@ -1,6 +1,10 @@
 SmartSVM
 ========
 
+.. image:: https://readthedocs.org/projects/smartsvm/badge/?version=latest
+:target: https://smartsvm.readthedocs.io/en/latest/?badge=latest
+:alt: Documentation Status
+
 SmartSVM is a Python package that implements the methods from `Fast 
 Meta-Learning for Adaptive Hierarchical Classifier Design 
 <https://arxiv.org/abs/1711.03512>`_ by `Gerrit J.J. van den Burg 
