@@ -55,10 +55,10 @@ develop2: ## Install a development version of the package needed for testing (py
 	python2 setup.py develop --user
 
 
-dist: ## Make Python source distribution
+dist: inplace ## Make Python source distribution
 	python setup.py sdist
 
-dist2: ## Make Python 2 source distribution
+dist2: inplace2 ## Make Python 2 source distribution
 	python2 setup.py sdist
 
 docs: doc
