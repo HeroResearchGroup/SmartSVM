@@ -145,7 +145,7 @@ the underlying classifier supports the ``predict_proba`` method:
 .. code:: python
 
     >>> from sklearn.svm import SVC
-    >>> clf = SmartSVM(binary_clf=SVC, clf_params={"probabilities": True})
+    >>> clf = SmartSVM(binary_clf=SVC, clf_params={"probability": True})
     >>> clf.fit(X, y)
     >>> prob = clf.predict_proba(X)
     >>> import pandas as pd
